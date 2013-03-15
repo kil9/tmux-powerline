@@ -75,7 +75,7 @@ run_segment() {
 	esac
 	local exitcode="$?"
 	if [ "$exitcode" -ne 0 ]; then
-		return exitcode
+		return $exitcode
 	fi
 
 
@@ -97,14 +97,14 @@ __count_gmail() {
 	local override_passget="false"	# When true a force reloaded will be done.
 
 	# Create the cache file if it doesn't exist.
-	if [ ! -f $tmp_file ]; then
+	if [ ! -f "$tmp_file" ]; then
 		touch $tmp_file
 		override_passget=true
 	fi
 
 	# Refresh mail count if the tempfile is older than $interval minutes.
 	let interval=60*$TMUX_POWERLINE_SEG_MAILCOUNT_GMAIL_INTERVAL
-	if shell_is_osx; then
+	if shell_is_osx || shell_is_bsd; then
 		last_update=$(stat -f "%m" ${tmp_file})
 	elif shell_is_linux; then
 		last_update=$(stat -c "%Y" ${tmp_file})
@@ -135,7 +135,6 @@ __count_gmail() {
 		fi
 	fi
 
-	# echo "$(( $(date +"%s") - $(stat -f %m $tmp_file) ))"
 	count=$(cat $tmp_file)
 	echo "$count"
 	return 0;
