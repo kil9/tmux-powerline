@@ -4,7 +4,8 @@
 # Source lib to get the function get_tmux_pwd
 source "${TMUX_POWERLINE_DIR_LIB}/tmux_adapter.sh"
 
-flat_symbol="⤚"
+flat_symbol="F"
+#flat_symbol="="
 
 run_segment() {
 	tmux_path=$(get_tmux_cwd)
